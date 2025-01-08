@@ -6,7 +6,6 @@ services:
     image: prom/prometheus:latest
     volumes:
       - /home/ubuntu/prometheus:/prometheus
-      - ./prometheus.yml:/prometheus/prometheus.yml:ro
     command:
       - "--web.enable-lifecycle"
     ports:
