@@ -9,6 +9,6 @@ scrape_configs:
     scheme: 'http'
 
     static_configs:
-      - targets: ['prometheus:9090', 'node-exporter:9100']
+      - targets: ['prometheus-dev:9090', 'node-exporter-dev:9100']
         labels:
           service: 'monitor'

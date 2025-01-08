@@ -31,6 +31,7 @@ services:
       - backend
 
   node-exporter:
+    container_name: node-exporter-dev
     image: prom/node-exporter
     volumes:
       - /proc:/host/proc:ro
