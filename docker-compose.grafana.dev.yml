@@ -5,31 +5,26 @@ services:
     container_name: prometheus-dev
     image: prom/prometheus:latest
     volumes:
-      - /home/ubuntu/prometheus/dev-config:/etc/prometheus
-      - /home/ubuntu/prometheus/data:/prometheus
+      - /home/ubuntu/prometheus:/prometheus
+      - ./prometheus.yml:/prometheus/prometheus.yml:ro
     command:
-      - chmod -R 777 /prometheus
-      - '--storage.tsdb.path=/prometheus'
-      - '--config.file=/etc/prometheus/prometheus-config.yml'
+      - "--web.enable-lifecycle"
     ports:
       - "9090:9090"
     networks:
       - backend
+    user: root
 
   grafana-dev:
     container_name: grafana-dev
     image: grafana/grafana:latest
+    volumes:
+      - /home/ubuntu/grafana:/var/lib/grafana
     ports:
       - "3000:3000"
-    command:
-      - chmod -R 777 /var/lib/grafana
-    volumes:
-      - /home/ubuntu/grafana/data:/var/lib/grafana
-      - /home/ubuntu/grafana/provisioning:/etc/grafana/provisioning
-    depends_on:
-      - prometheus-dev
     networks:
       - backend
+    user: root
 
   node-exporter:
     container_name: node-exporter-dev
