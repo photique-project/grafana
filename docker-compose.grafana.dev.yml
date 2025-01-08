@@ -4,7 +4,6 @@ services:
   prometheus-dev:
     container_name: prometheus-dev
     image: prom/prometheus:latest
-    restart: always
     volumes:
       - /home/ubuntu/prometheus/config:/etc/prometheus
       - /home/ubuntu/prometheus/data:/prometheus
@@ -19,7 +18,6 @@ services:
   grafana-dev:
     container_name: grafana-dev
     image: grafana/grafana:latest
-    restart: always
     ports:
       - "3000:3000"
     volumes:
