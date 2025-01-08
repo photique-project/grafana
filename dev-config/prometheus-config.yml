@@ -16,3 +16,6 @@ scrape_configs:
       - targets: ['prometheus-dev:9090', 'node-exporter-dev:9100']
         labels:
           service: 'monitor'
+
+
+# 디렉터리권한문제 해결해야함

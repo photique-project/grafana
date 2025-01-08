@@ -8,6 +8,7 @@ services:
       - /home/ubuntu/prometheus/dev-config:/etc/prometheus
       - /home/ubuntu/prometheus/data:/prometheus
     command:
+      - chmod -R 777 /prometheus
       - '--storage.tsdb.path=/prometheus'
       - '--config.file=/etc/prometheus/prometheus-config.yml'
     ports:
@@ -20,6 +21,8 @@ services:
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
+    command:
+      - chmod -R 777 /var/lib/grafana
     volumes:
       - /home/ubuntu/grafana/data:/var/lib/grafana
       - /home/ubuntu/grafana/provisioning:/etc/grafana/provisioning
