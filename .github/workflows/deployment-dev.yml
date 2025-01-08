@@ -28,8 +28,8 @@ jobs:
         username: ubuntu
         host: ${{ secrets.HOST_DEV }}
         key: ${{ secrets.KEY }}
-        source: ./dev-config/prometheus-config.yml
-        target: /home/ubuntu/prometheus/config/prometheus-config.yml
+        source: dev-config/prometheus-config.yml
+        target: /home/ubuntu/prometheus/config
 
     - name: EC2 연결 및 도커컴포즈 실행
       uses: appleboy/ssh-action@master
