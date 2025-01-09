@@ -19,7 +19,8 @@ services:
     container_name: grafana-dev
     image: grafana/grafana:latest
     environment:
-      - GF_SERVER_ROOT_URL=http://www.photique.shop/monitor
+      - TZ=Asia/Seoul
+      - GF_SERVER_ROOT_URL=https://www.photique.shop/grafana/
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
     volumes:
       - /home/ubuntu/grafana:/var/lib/grafana

@@ -3,10 +3,15 @@ global:
   evaluation_interval: 10s
 
 scrape_configs:
-  - job_name: 'spring-boot-server'
+  - job_name: 'spring-boot-server-blue'
     metrics_path: /api/v1/prometheus
     static_configs:
-      - targets: ['backend-dev:8080']
+      - targets: ['blue-dev:8080']
+  
+  - job_name: 'spring-boot-server-green'
+    metrics_path: /api/v1/prometheus
+    static_configs:
+      - targets: ['green-dev:8080']
 
   - job_name: 'ec2-server'
     metrics_path: /metrics
