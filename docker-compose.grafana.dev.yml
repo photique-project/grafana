@@ -47,9 +47,8 @@ services:
     networks:
       - backend
 
-
-
   loki:
+    container_name: loki-dev
     image: grafana/loki:latest
     ports:
       - "3100:3100"
@@ -58,6 +57,7 @@ services:
       - backend
 
   promtail:
+    container_name: promtail-dev
     image: grafana/promtail:latest
     volumes:
       - /home/ubuntu/spring:/logs
