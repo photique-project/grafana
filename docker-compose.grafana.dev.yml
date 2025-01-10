@@ -4,33 +4,34 @@ services:
   prometheus-dev:
     container_name: prometheus-dev
     image: prom/prometheus:latest
-    restart: always
     volumes:
-      - /home/ubuntu/prometheus/config:/etc/prometheus
-      - /home/ubuntu/prometheus/data:/prometheus
+      - /home/ubuntu/prometheus:/prometheus
     command:
-      - '--storage.tsdb.path=/prometheus'
-      - '--config.file=/etc/prometheus/prometheus-config.yml'
+      - --config.file=/prometheus/prometheus-config.dev.yml
+      - "--web.enable-lifecycle"
     ports:
       - "9090:9090"
     networks:
       - backend
+    user: root
 
   grafana-dev:
     container_name: grafana-dev
     image: grafana/grafana:latest
-    restart: always
+    environment:
+      - TZ=Asia/Seoul
+      - GF_SERVER_ROOT_URL=https://www.photique.shop/grafana/
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+    volumes:
+      - /home/ubuntu/grafana:/var/lib/grafana
     ports:
       - "3000:3000"
-    volumes:
-      - /home/ubuntu/grafana/data:/var/lib/grafana
-      - /home/ubuntu/grafana/provisioning:/etc/grafana/provisioning
-    depends_on:
-      - prometheus-dev
     networks:
       - backend
+    user: root
 
   node-exporter:
+    container_name: node-exporter-dev
     image: prom/node-exporter
     volumes:
       - /proc:/host/proc:ro
@@ -45,6 +46,30 @@ services:
       - "9100:9100"
     networks:
       - backend
+
+  loki:
+    container_name: loki-dev
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    command: --config.file=/etc/loki/local-config.yaml
+    networks:
+      - backend
+
+  promtail:
+    container_name: promtail-dev
+    image: grafana/promtail:latest
+    volumes:
+      - /home/ubuntu/spring:/logs
+      - /home/ubuntu/promtail:/etc/promtail
+    command: --config.file=/etc/promtail/promtail-config.dev.yml
+    ports:
+      - "9080:9080"
+    networks:
+      - backend
+    user: root
+
+
 
 networks:
   backend:
