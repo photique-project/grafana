@@ -62,7 +62,7 @@ services:
     volumes:
       - /home/ubuntu/spring:/logs
       - /home/ubuntu/promtail:/etc/promtail
-    command: --config.file=/etc/promtail/config.yml
+    command: --config.file=/etc/promtail/promtail-config.dev.yml
     ports:
       - "9080:9080"
     networks:
