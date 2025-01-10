@@ -63,6 +63,8 @@ services:
       - /home/ubuntu/spring:/logs
       - /home/ubuntu/promtail:/etc/promtail
     command: --config.file=/etc/promtail/config.yml
+    ports:
+      - "9080:9080"
     networks:
       - backend
 

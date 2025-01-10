@@ -1,3 +1,7 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
 global:
   scrape_interval: 10s
   evaluation_interval: 10s

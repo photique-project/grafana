@@ -3,7 +3,6 @@ server:
   grpc_listen_port: 0
 
 positions:
-  # 동기화 작업을 이루기 위해 promtail이 읽은 마지막 로그 정보를 저장하는 곳
   filename: /tmp/positions.yaml
 
 clients:

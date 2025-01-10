@@ -19,7 +19,7 @@ jobs:
         username: ubuntu
         host: ${{ secrets.HOST_DEV }}
         key: ${{ secrets.KEY }}
-        source: ./docker-compose.grafana.dev.yml, ./prometheus/prometheus-config.dev.yml, /promtail/promtail-config.dev.yml
+        source: ./docker-compose.grafana.dev.yml, ./prometheus/prometheus-config.dev.yml, ./promtail/promtail-config.dev.yml
         target: /home/ubuntu
 
     - name: EC2 연결 및 도커컴포즈 실행
