@@ -67,6 +67,7 @@ services:
       - "9080:9080"
     networks:
       - backend
+    user: root
 
 
 
