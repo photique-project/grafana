@@ -61,7 +61,6 @@ services:
     image: grafana/promtail:latest
     volumes:
       - /home/ubuntu/spring:/logs
-      volumes:
       - /home/ubuntu/promtail:/etc/promtail
     command: --config.file=/etc/promtail/config.yml
     networks:
