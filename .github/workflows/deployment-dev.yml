@@ -19,8 +19,9 @@ jobs:
         username: ubuntu
         host: ${{ secrets.HOST_DEV }}
         key: ${{ secrets.KEY }}
+        script: mkdir -p /home/ubuntu/grafana
         source: ./docker-compose.grafana.dev.yml, ./prometheus/prometheus-config.dev.yml, ./promtail/promtail-config.dev.yml
-        target: /home/ubuntu
+        target: /home/ubuntu/grafana
 
     - name: EC2 연결 및 도커컴포즈 실행
       uses: appleboy/ssh-action@master
@@ -29,7 +30,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.KEY }} 
         script: |
-            sudo docker-compose -f docker-compose.grafana.dev.yml down
-            sudo docker-compose -f docker-compose.grafana.dev.yml pull
-            sudo docker-compose -f docker-compose.grafana.dev.yml up -d
+            sudo docker-compose -f /home/ubuntu/grafana/docker-compose.grafana.dev.yml down
+            sudo docker-compose -f /home/ubuntu/grafana/docker-compose.grafana.dev.yml pull
+            sudo docker-compose -f /home/ubuntu/grafana/docker-compose.grafana.dev.yml up -d
             sudo docker image prune -a -f
