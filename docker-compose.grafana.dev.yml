@@ -69,8 +69,6 @@ services:
       - backend
     user: root
 
-
-
 networks:
   backend:
     external: true
