@@ -5,7 +5,7 @@ services:
     container_name: prometheus-dev
     image: prom/prometheus:latest
     volumes:
-      - /home/ubuntu/prometheus:/prometheus
+      - /home/ubuntu/grafana/prometheus:/prometheus
     command:
       - --config.file=/prometheus/prometheus-config.dev.yml
       - "--web.enable-lifecycle"
@@ -61,15 +61,13 @@ services:
     image: grafana/promtail:latest
     volumes:
       - /home/ubuntu/spring:/logs
-      - /home/ubuntu/promtail:/etc/promtail
+      - /home/ubuntu/grafana/promtail:/etc/promtail
     command: --config.file=/etc/promtail/promtail-config.dev.yml
     ports:
       - "9080:9080"
     networks:
       - backend
     user: root
-
-
 
 networks:
   backend:
