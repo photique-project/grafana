@@ -1,0 +1,36 @@
+name: 프로덕트 서버 Grafana 배포
+
+on:
+  pull_request:
+    branches:
+      - release
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 소스코드 체크아웃
+      uses: actions/checkout@v3
+
+    - name: EC2에 도커컴포즈, 프로메테우스 설정 파일 복사
+      uses: appleboy/scp-action@master
+      with:
+        username: photique0538
+        host: ${{ secrets.HOST_PROD }}
+        key: ${{ secrets.KEY_PROD }}
+        script: mkdir -p /home/photique0538/grafana
+        source: ./docker-compose.grafana.prod.yml, ./prometheus/prometheus-config.prod.yml, ./promtail/promtail-config.prod.yml
+        target: /home/photique0538/grafana
+
+    - name: EC2 연결 및 도커컴포즈 실행
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_PROD }}
+        username: photique0538
+        key: ${{ secrets.KEY_PROD }} 
+        script: |
+            docker-compose -f /home/photique0538/grafana/docker-compose.grafana.prod.yml down
+            docker-compose -f /home/photique0538/grafana/docker-compose.grafana.prod.yml pull
+            docker-compose -f /home/photique0538/grafana/docker-compose.grafana.prod.yml up -d
+            docker image prune -a -f

@@ -1,0 +1,75 @@
+
+version: '3.8'
+
+services:
+  prometheus-prod:
+    container_name: prometheus-prod
+    image: prom/prometheus:latest
+    volumes:
+      - /home/photique0538/grafana/prometheus:/prometheus
+    command:
+      - --config.file=/prometheus/prometheus-config.prod.yml
+      - "--web.enable-lifecycle"
+    ports:
+      - "9090:9090"
+    networks:
+      - backend
+    user: root
+
+  grafana-prod:
+    container_name: grafana-prod
+    image: grafana/grafana:latest
+    environment:
+      - TZ=Asia/Seoul
+      - GF_SERVER_ROOT_URL=https://www.photique.site/grafana/
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+    volumes:
+      - /home/photique0538/grafana:/var/lib/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - backend
+    user: root
+
+  node-exporter:
+    container_name: node-exporter-prod
+    image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+      - "9100:9100"
+    networks:
+      - backend
+
+  loki:
+    container_name: loki-prod
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    command: --config.file=/etc/loki/local-config.yaml
+    networks:
+      - backend
+
+  promtail:
+    container_name: promtail-prod
+    image: grafana/promtail:latest
+    volumes:
+      - /home/photique0538/spring:/logs
+      - /home/photique0538/grafana/promtail:/etc/promtail
+    command: --config.file=/etc/promtail/promtail-config.prod.yml
+    ports:
+      - "9080:9080"
+    networks:
+      - backend
+    user: root
+
+networks:
+  backend:
+    external: true
